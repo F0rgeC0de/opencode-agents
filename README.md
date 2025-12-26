@@ -1,11 +1,19 @@
+<p align="center">
+  <a href="README.md">🇷🇺 Русский</a> · <a href="README.en.md">🇬🇧 English</a> · <a href="README.zh.md">🇨🇳 中文</a>
+</p>
+
 # OpenCode Agents
 
+Все модели писались и тестировались из расчета на GLM4.6/GLM4.7
+
+В особенности под Coding Plan подписку без ограничений на токены.
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/veschin/opencode-agents/main/logo.svg" width="128" alt="OpenCode Agents Logo">
+  <img src="https://raw.githubusercontent.com/veschin/opencode-agents/refs/heads/main/logo.svg" width="512" alt="OpenCode Agents Logo">
 </p>
 
 <p align="center">
-  <em>"Репозиторий с .md-файлами... но каждый файл — это персональность."</em>
+  <em>"Репозиторий с .md-файлами... но каждый файл — это нейродегенерат."</em>
 </p>
 
 ---
@@ -18,10 +26,10 @@
 # Создаём директорию агентов
 mkdir -p ~/.config/opencode/agent/
 
-# Загружаем все .md файлы через GitHub API
+# Загружаем только файлы агентов через GitHub API
 curl -s "https://api.github.com/repos/veschin/opencode-agents/contents" | \
-  jq -r '.[] | select(.name | endswith(".md")) | .download_url' | \
-  while read url; do curl -s "$url" -o ~/.config/opencode/agent/$(basename "$url"); done
+  jq -r '.[] | select(.name | startswith("_") and endswith(".md")) | "\(.name)\t\(.download_url)"' | \
+  while IFS=$'\t' read -r name url; do curl -s "$url" -o ~/.config/opencode/agent/"$name"; done
 ```
 
 *Требуется jq для обработки JSON. Установите через `sudo apt install jq` (Ubuntu/Debian), `brew install jq` (macOS), или `pacman -S jq` (Arch).*
@@ -35,14 +43,14 @@ if (-not (Test-Path $agentDir)) {
     New-Item -ItemType Directory -Path $agentDir -Force | Out-Null
 }
 
-# Загружаем все .md файлы через GitHub API
-Invoke-RestMethod -Uri "https://api.github.com/repos/veschin/opencode-agents/contents" |
-    Where-Object { $_.name -like '*.md' } |
-    ForEach-Object {
-        $content = Invoke-RestMethod -Uri $_.download_url
-        $path = Join-Path $agentDir $_.name
-        $content | Out-File -FilePath $path -Encoding UTF8
-    }
+# Загружаем только файлы агентов через GitHub API
+$response = Invoke-RestMethod -Uri "https://api.github.com/repos/veschin/opencode-agents/contents"
+$response | Where-Object { $_.name -like '_*.md' } | ForEach-Object {
+    $content = Invoke-RestMethod -Uri $_.download_url
+    $path = Join-Path $agentDir $_.name
+    $content | Out-File -FilePath $path -Encoding UTF8
+    Write-Host "Downloading $($_.name)..."
+}
 ```
 
 ## _arch — Senior Solution Architect
