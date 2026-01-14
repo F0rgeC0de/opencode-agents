@@ -1,6 +1,5 @@
 ---
 description: Senior solution architect
-model: zai-coding-plan/glm-4.7
 temperature: 0.4
 thinking:
   type: enabled

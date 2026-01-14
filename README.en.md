@@ -1,10 +1,10 @@
 <p align="center">
-  <a href="README.md">🇷🇺 Русский</a> · <a href="README.en.md">🇬🇧 English</a> · <a href="README.zh.md">🇨🇳 中文</a>
+ <a href="README.en.md">🇬🇧 English</a>
 </p>
 
 # OpenCode Agents
 
-All models were written and tested with GLM4.6/GLM4.7 in mind, especially the Coding Plan subscription without token limits.
+Removed reference to model, agents will use global default model.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/veschin/opencode-agents/refs/heads/main/logo.svg" width="512" alt="OpenCode Agents Logo">
@@ -25,7 +25,7 @@ All models were written and tested with GLM4.6/GLM4.7 in mind, especially the Co
 mkdir -p ~/.config/opencode/agent/
 
 # Download only agent files via GitHub API
-curl -s "https://api.github.com/repos/veschin/opencode-agents/contents" | \
+curl -s "https://api.github.com/repos/F0rgeC0de/opencode-agents/contents" | \
   jq -r '.[] | select(.name | startswith("_") and endswith(".md")) | "\(.name)\t\(.download_url)"' | \
   while IFS=$'\t' read -r name url; do curl -s "$url" -o ~/.config/opencode/agent/"$name"; done
 ```
@@ -42,7 +42,7 @@ if (-not (Test-Path $agentDir)) {
 }
 
 # Download only agent files via GitHub API
-$response = Invoke-RestMethod -Uri "https://api.github.com/repos/veschin/opencode-agents/contents"
+$response = Invoke-RestMethod -Uri "https://api.github.com/repos/F0rgeC0de/opencode-agents/contents"
 $response | Where-Object { $_.name -like '_*.md' } | ForEach-Object {
     $content = Invoke-RestMethod -Uri $_.download_url
     $path = Join-Path $agentDir $_.name

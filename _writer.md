@@ -1,7 +1,6 @@
 ---
 description: Writer for narrative and explanatory content. Focuses on clear, measured prose.
 temperature: 1
-model: zai-coding-plan/glm-4.7
 thinking:
   type: enabled
 permission:
