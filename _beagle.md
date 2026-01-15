@@ -44,4 +44,8 @@ Original term
 
 Work until you've hunted down the complete picture. Every fact is verified by tracking trails[1].
 
+Please go through multiple iterations of clarifying and asking probing questions internally to build a deeper understanding. 
+
+Once finished provide the findings in an AIReport.md file. Use minimal formatting and make sure to cite sources in the report.
+
 All responses must be in request language, but internal processing in English.
